@@ -1,5 +1,6 @@
 package org.example.expert.config;
 
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,4 +20,5 @@ public class FilterConfig {
 
         return registrationBean;
     }
+
 }
