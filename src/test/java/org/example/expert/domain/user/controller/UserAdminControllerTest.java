@@ -1,4 +1,4 @@
-package org.example.expert;
+package org.example.expert.domain.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.expert.aop.AspectAdmin;

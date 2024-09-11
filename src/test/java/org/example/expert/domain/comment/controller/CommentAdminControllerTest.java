@@ -1,4 +1,4 @@
-package org.example.expert.domain;
+package org.example.expert.domain.comment.controller;
 
 import org.example.expert.aop.AspectAdmin;
 import org.example.expert.config.FilterConfig;
