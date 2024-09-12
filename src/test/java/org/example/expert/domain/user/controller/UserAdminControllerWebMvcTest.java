@@ -1,54 +1,45 @@
 package org.example.expert.domain.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.expert.aop.AspectAdmin;
-import org.example.expert.config.FilterConfig;
-import org.example.expert.config.JwtUtil;
 import org.example.expert.domain.user.dto.request.UserRoleChangeRequest;
 import org.example.expert.domain.user.service.UserAdminService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import({AspectAdmin.class, FilterConfig.class})
-public class UserAdminControllerTest {
-
+@WebMvcTest(UserAdminController.class)
+public class UserAdminControllerWebMvcTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
     private UserAdminService userAdminService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
-    private JwtUtil jwtUtil;
-
     @Test
-    void 어드민_컨트롤러_로그_테스트() throws Exception {
-        // given
-        Long userId = 1L;
-        UserRoleChangeRequest request = new UserRoleChangeRequest();
-        request.setNewRole("ROLE_ADMIN");
+    void userAdminControllerTest() throws Exception {
+        long userId = 1L;
+        UserRoleChangeRequest roleChangeRequest = new UserRoleChangeRequest("ROLE_ADMIN");
 
-        String jsonRequest = objectMapper.writeValueAsString(request);
+        willDoNothing().given(userAdminService).changeUserRole(anyLong(),any());
 
-        // when
         ResultActions resultActions = mockMvc.perform(patch("/admin/users/{userId}", userId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonRequest));
+                .content(objectMapper.writeValueAsBytes(roleChangeRequest))
+        );
 
-        // then
+        resultActions.andExpect(status().isOk());
     }
 }

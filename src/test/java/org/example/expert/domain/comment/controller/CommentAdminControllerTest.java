@@ -37,7 +37,7 @@ public class CommentAdminControllerTest {
         // when
         ResultActions resultActions = mockMvc.perform(delete("/admin/comments/{commentId}", commentId));
 
-        // then
-        // 로그가 정상적으로 출력되었는지 확인하기 위해 콘솔을 확인하세요.
     }
+
+
 }

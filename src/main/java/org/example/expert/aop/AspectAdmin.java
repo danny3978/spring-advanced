@@ -17,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.net.URLDecoder;
 import java.net.http.HttpHeaders;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 
 @Aspect
 @Slf4j
@@ -43,6 +44,7 @@ public class AspectAdmin {
                 break;
             }
         }
+        LocalDateTime dateTime = LocalDateTime.now();
 
         try {
             Object result = joinPoint.proceed();
@@ -53,6 +55,7 @@ public class AspectAdmin {
             log.info("::: Request User_id : {} :::" ,user_id);
             log.info("::: Request URL : {} :::" , requestUrl);
             log.info("::: Time : {}ms :::",executionTime);
+            log.info("::: API Request Time : {} :::", dateTime);
         }
     }
 
